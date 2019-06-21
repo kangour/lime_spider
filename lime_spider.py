@@ -133,25 +133,13 @@ class Store:
         :param lists: 举例 [dict(a=1, b=2), dict(a=1, b=2)]
         :return:
         '''
-        work_book = Workbook()
-        table = work_book.active
-        table.title = self.filename
-        rows = 1
+        wb = Workbook()
+        ws = wb.active
+        ws.title = self.filename
+        ws.append(list(lists[0].keys()))
         for dic in lists:
-            keys = list(dic.keys())
-            if len(keys) == 0:
-                raise ValueError('Invalid format')
-            for i in range(len(keys)):
-                table.cell(row=rows, column=i + 1).value = keys[i]
-            rows = rows + 1
-            break
-        for dic in lists:
-            values = list(dic.values())
-            print(values)
-            for i in range(len(values)):
-                table.cell(row=rows, column=i + 1).value = values[i]
-            rows = rows + 1
-        work_book.save(self.fullname)
+            ws.append(list(dic.values()))
+        wb.save(self.fullname)
 
 
 class ApiClient(Base):

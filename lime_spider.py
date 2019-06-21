@@ -197,3 +197,17 @@ class SeleniumClient(Parser):
         browser.execute_script(js)
         html = browser.page_source
         return html
+
+
+from multiprocessing import Pool
+class Runner():
+
+    def __init__(self, pool_num=10):
+        self.p = Pool(pool_num)
+
+    def start(self, callback, *params):
+        self.p.apply_async(callback, args=(*params, ))
+
+    def end(self):
+        self.p.close()
+        self.p.join()
